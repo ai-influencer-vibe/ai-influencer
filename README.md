@@ -2,6 +2,8 @@
 
 Production-ready MVP platform for creating and managing AI influencers with structured memory, retrieval, generation pipelines, and provider-agnostic AI integrations.
 
+This repository is vibe-coded by Codex and supervised by a Senior Python Engineer.
+
 ## Current status
 
 - architecture, memory design, and schema documents are defined
