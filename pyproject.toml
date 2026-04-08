@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "ai-influencer-platform"
+version = "0.1.0"
+description = "Production-ready MVP platform for creating and managing AI influencers."
+authors = ["Codex <codex@example.com>"]
+readme = "README.md"
+packages = [{ include = "app", from = "backend/src" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.12"
+uvicorn = { extras = ["standard"], version = "^0.34.0" }
+sqlalchemy = "^2.0.40"
+alembic = "^1.15.2"
+psycopg = { extras = ["binary"], version = "^3.2.6" }
+redis = "^5.2.1"
+celery = "^5.5.1"
+pydantic = "^2.11.3"
+pydantic-settings = "^2.8.1"
+pgvector = "^0.4.0"
+structlog = "^25.2.0"
+python-json-logger = "^3.3.0"
+jinja2 = "^3.1.6"
+httpx = "^0.28.1"
+python-multipart = "^0.0.20"
+orjson = "^3.10.16"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-asyncio = "^0.26.0"
+pytest-cov = "^6.1.1"
+ruff = "^0.11.5"
+mypy = "^1.15.0"
+types-redis = "^4.6.0.20241004"
+
+[tool.pytest.ini_options]
+pythonpath = ["backend/src"]
+asyncio_mode = "auto"
+testpaths = ["backend/tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "S", "C4"]
+ignore = ["B008", "S104"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_configs = true
+plugins = []
+mypy_path = "backend/src"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"

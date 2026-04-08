@@ -1,0 +1,18 @@
+# AI Influencer Platform
+
+Production-ready MVP platform for creating and managing AI influencers with structured memory, retrieval, generation pipelines, and provider-agnostic AI integrations.
+
+## Current status
+
+- architecture, memory design, and schema documents are defined
+- repository scaffold is in place
+- backend FastAPI foundation is bootstrapped
+- Alembic migration scaffold and initial schema migration are present
+- frontend admin shell is initialized
+
+## Planned next steps
+
+1. implement influencer and memory domain services
+2. add repositories and API endpoints
+3. implement provider abstraction and generation pipeline
+4. complete Docker workflows and operational documentation
