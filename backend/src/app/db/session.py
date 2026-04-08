@@ -1,3 +1,5 @@
+"""SQLAlchemy engine and session management helpers."""
+
 from collections.abc import Generator
 
 from sqlalchemy import create_engine
@@ -12,6 +14,8 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, clas
 
 
 def get_db_session() -> Generator[Session, None, None]:
+    """Yield a transactional SQLAlchemy session and close it safely."""
+
     session = SessionLocal()
     try:
         yield session
