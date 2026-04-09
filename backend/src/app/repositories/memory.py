@@ -25,6 +25,21 @@ class MemoryItemRepository(SQLAlchemyRepository[MemoryItem]):
         )
         return list(self.session.scalars(statement))
 
+    def get_by_key(
+        self,
+        influencer_id: uuid.UUID,
+        memory_type: str,
+        key: str,
+    ) -> MemoryItem | None:
+        """Return one memory item by influencer-scoped logical key."""
+
+        statement = select(MemoryItem).where(
+            MemoryItem.influencer_id == influencer_id,
+            MemoryItem.memory_type == memory_type,
+            MemoryItem.key == key,
+        )
+        return self.session.scalar(statement)
+
 
 class MemoryVersionRepository(SQLAlchemyRepository[MemoryVersion]):
     """Persistence operations for immutable memory revisions."""
@@ -40,3 +55,16 @@ class MemoryVersionRepository(SQLAlchemyRepository[MemoryVersion]):
             .order_by(desc(MemoryVersion.version))
         )
         return list(self.session.scalars(statement))
+
+    def get_for_item(
+        self,
+        memory_item_id: uuid.UUID,
+        version_id: uuid.UUID,
+    ) -> MemoryVersion | None:
+        """Return one version only when it belongs to the requested memory item."""
+
+        statement = select(MemoryVersion).where(
+            MemoryVersion.memory_item_id == memory_item_id,
+            MemoryVersion.id == version_id,
+        )
+        return self.session.scalar(statement)
