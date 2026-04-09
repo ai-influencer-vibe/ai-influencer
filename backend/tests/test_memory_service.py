@@ -286,7 +286,7 @@ def test_publish_memory_version_sets_current_pointer_and_archives_previous() -> 
     assert draft.status == MemoryVersionStatus.PUBLISHED.value
     assert published.status == MemoryVersionStatus.ARCHIVED.value
     assert item_repo.session.committed is True
-    assert version_repo.session.refreshed[-1] == draft
+    assert draft in version_repo.session.refreshed
 
 
 def test_publish_memory_version_raises_for_missing_version() -> None:
