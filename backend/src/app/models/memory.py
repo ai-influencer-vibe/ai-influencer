@@ -14,7 +14,9 @@ from app.models.base_mixins import TimestampMixin, UUIDPrimaryKeyMixin
 class MemoryItem(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __table_args__ = (UniqueConstraint("influencer_id", "memory_type", "key"),)
 
-    influencer_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("influencer.id"))
+    influencer_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("influencer.id")
+    )
     memory_type: Mapped[str] = mapped_column(String(32), nullable=False)
     subtype: Mapped[str | None] = mapped_column(String(64))
     key: Mapped[str] = mapped_column(String(128), nullable=False)
@@ -47,18 +49,22 @@ class MemoryProjection(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     memory_version_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("memory_version.id"), nullable=False
     )
-    influencer_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("influencer.id"))
+    influencer_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("influencer.id")
+    )
     projection_type: Mapped[str] = mapped_column(String(32), nullable=False)
     content: Mapped[str] = mapped_column(Text, nullable=False)
-    metadata: Mapped[dict[str, object]] = mapped_column(JSONB, default=dict, nullable=False)
+    meta: Mapped[dict[str, object]] = mapped_column("metadata", JSONB, default=dict, nullable=False)
     embedding: Mapped[list[float] | None] = mapped_column(Vector(1536))
 
 class MemoryLink(UUIDPrimaryKeyMixin, TimestampMixin, Base):
-    influencer_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("influencer.id"))
+    influencer_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("influencer.id")
+    )
     source_memory_item_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("memory_item.id"), nullable=False
     )
     target_type: Mapped[str] = mapped_column(String(32), nullable=False)
     target_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), nullable=False)
     relationship_type: Mapped[str] = mapped_column(String(64), nullable=False)
-    metadata: Mapped[dict[str, object]] = mapped_column(JSONB, default=dict, nullable=False)
+    meta: Mapped[dict[str, object]] = mapped_column("metadata", JSONB, default=dict, nullable=False)

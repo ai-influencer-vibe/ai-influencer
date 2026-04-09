@@ -39,7 +39,10 @@ async def list_influencers(
     """List influencers with basic pagination metadata."""
 
     result = service.list_influencers(limit=limit, offset=offset)
-    return InfluencerListResponse(items=result.items, total=result.total)
+    return InfluencerListResponse(
+        items=[InfluencerRead.model_validate(item) for item in result.items],
+        total=result.total,
+    )
 
 
 @router.post("/", response_model=InfluencerRead, status_code=status.HTTP_201_CREATED)
@@ -49,7 +52,7 @@ async def create_influencer(
 ) -> InfluencerRead:
     """Create a new influencer resource."""
 
-    return service.create_influencer(payload)
+    return InfluencerRead.model_validate(service.create_influencer(payload))
 
 
 @router.get("/{influencer_id}", response_model=InfluencerRead)
@@ -59,7 +62,7 @@ async def get_influencer(
 ) -> InfluencerRead:
     """Return one influencer by identifier."""
 
-    return service.get_or_raise(influencer_id)
+    return InfluencerRead.model_validate(service.get_or_raise(influencer_id))
 
 
 @router.patch("/{influencer_id}", response_model=InfluencerRead)
@@ -70,4 +73,4 @@ async def update_influencer(
 ) -> InfluencerRead:
     """Apply a partial update to an influencer resource."""
 
-    return service.update_influencer(influencer_id, payload)
+    return InfluencerRead.model_validate(service.update_influencer(influencer_id, payload))

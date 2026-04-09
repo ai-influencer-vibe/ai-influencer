@@ -1,8 +1,9 @@
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
+"""Tests for structured API error handling."""
 
 from app.api.error_handlers import register_exception_handlers
 from app.core.exceptions import ConflictError
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
 
 def test_app_errors_are_serialized_into_api_contract() -> None:

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 from sqlalchemy import Select, select
 from sqlalchemy.orm import Session
@@ -13,7 +13,7 @@ from app.db.base import Base
 ModelT = TypeVar("ModelT", bound=Base)
 
 
-class SQLAlchemyRepository(Generic[ModelT]):
+class SQLAlchemyRepository[ModelT]:
     """Thin typed wrapper around common SQLAlchemy persistence operations."""
 
     model_type: type[ModelT]

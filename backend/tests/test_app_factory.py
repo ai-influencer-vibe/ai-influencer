@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+"""Tests for FastAPI application bootstrap behavior."""
 
 from app.main import create_app
+from fastapi import FastAPI
 
 
 def test_create_app_returns_fastapi_instance() -> None:

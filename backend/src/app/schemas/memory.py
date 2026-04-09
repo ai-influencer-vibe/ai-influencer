@@ -7,7 +7,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.core.enums import MemoryType, MemoryVersionStatus
+from app.core.enums import MemoryType
 
 
 class MemoryVersionCreate(BaseModel):

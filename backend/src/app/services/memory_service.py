@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Protocol
-from datetime import datetime
 import uuid
+from dataclasses import dataclass
+from typing import Any, Protocol
 
 from app.core.enums import MemoryVersionStatus
 from app.core.exceptions import ConflictError, NotFoundError
@@ -13,23 +12,10 @@ from app.models.memory import MemoryItem, MemoryVersion
 from app.schemas.memory import MemoryItemCreate, MemoryVersionCreate
 
 
-class MemorySessionProtocol(Protocol):
-    """Protocol describing the session methods used by the memory service."""
-
-    def add(self, instance: object) -> None:
-        """Track an instance for persistence."""
-
-    def commit(self) -> None:
-        """Persist the current transaction."""
-
-    def refresh(self, instance: object) -> None:
-        """Refresh an instance from the underlying store."""
-
-
 class MemoryItemRepositoryProtocol(Protocol):
     """Protocol describing the item repository behavior the service relies on."""
 
-    session: MemorySessionProtocol
+    session: Any
 
     def get(self, entity_id: uuid.UUID) -> MemoryItem | None:
         """Return a memory item by id."""
@@ -52,7 +38,7 @@ class MemoryItemRepositoryProtocol(Protocol):
 class MemoryVersionRepositoryProtocol(Protocol):
     """Protocol describing the version repository behavior the service relies on."""
 
-    session: MemorySessionProtocol
+    session: Any
 
     def get(self, entity_id: uuid.UUID) -> MemoryVersion | None:
         """Return a memory version by id."""

@@ -1,3 +1,5 @@
+"""Celery application bootstrap used by workers and periodic jobs."""
+
 from celery import Celery
 
 from app.core.config import get_settings
@@ -21,4 +23,6 @@ celery_app.conf.update(
 
 @celery_app.task(name="app.workers.ping")
 def ping() -> str:
+    """Return a small response used to validate the worker wiring."""
+
     return "pong"

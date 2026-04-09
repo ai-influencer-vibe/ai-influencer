@@ -14,6 +14,7 @@ from app.schemas.memory import (
     MemoryItemCreate,
     MemoryItemDetailResponse,
     MemoryItemListResponse,
+    MemoryItemRead,
     MemoryVersionCreate,
     MemoryVersionRead,
     PublishMemoryVersionResponse,
@@ -42,7 +43,7 @@ async def list_memory_items(
     """List all memory items for one influencer."""
 
     items = service.list_influencer_memory(influencer_id)
-    return MemoryItemListResponse(items=items)
+    return MemoryItemListResponse(items=[MemoryItemRead.model_validate(item) for item in items])
 
 
 @router.post("/", response_model=MemoryItemDetailResponse, status_code=status.HTTP_201_CREATED)
@@ -53,7 +54,10 @@ async def create_memory_item(
     """Create a memory item and its initial immutable version."""
 
     result = service.create_memory_item(payload)
-    return MemoryItemDetailResponse(item=result.item, versions=result.versions)
+    return MemoryItemDetailResponse(
+        item=MemoryItemRead.model_validate(result.item),
+        versions=[MemoryVersionRead.model_validate(version) for version in result.versions],
+    )
 
 
 @router.get("/{memory_item_id}", response_model=MemoryItemDetailResponse)
@@ -64,10 +68,17 @@ async def get_memory_item(
     """Return one memory item with its version history."""
 
     result = service.get_memory_detail(memory_item_id)
-    return MemoryItemDetailResponse(item=result.item, versions=result.versions)
+    return MemoryItemDetailResponse(
+        item=MemoryItemRead.model_validate(result.item),
+        versions=[MemoryVersionRead.model_validate(version) for version in result.versions],
+    )
 
 
-@router.post("/{memory_item_id}/versions", response_model=MemoryVersionRead, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/{memory_item_id}/versions",
+    response_model=MemoryVersionRead,
+    status_code=status.HTTP_201_CREATED,
+)
 async def create_memory_version(
     memory_item_id: UUID,
     payload: MemoryVersionCreate,
@@ -75,10 +86,13 @@ async def create_memory_version(
 ) -> MemoryVersionRead:
     """Create a new version for an existing memory item."""
 
-    return service.create_memory_version(memory_item_id, payload)
+    return MemoryVersionRead.model_validate(service.create_memory_version(memory_item_id, payload))
 
 
-@router.post("/{memory_item_id}/versions/{version_id}/publish", response_model=PublishMemoryVersionResponse)
+@router.post(
+    "/{memory_item_id}/versions/{version_id}/publish",
+    response_model=PublishMemoryVersionResponse,
+)
 async def publish_memory_version(
     memory_item_id: UUID,
     version_id: UUID,
@@ -87,4 +101,7 @@ async def publish_memory_version(
     """Publish a memory version and make it the current active revision."""
 
     result = service.publish_memory_version(memory_item_id, version_id)
-    return PublishMemoryVersionResponse(item=result.item, version=result.version)
+    return PublishMemoryVersionResponse(
+        item=MemoryItemRead.model_validate(result.item),
+        version=MemoryVersionRead.model_validate(result.version),
+    )
