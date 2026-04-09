@@ -12,6 +12,10 @@ This repository is vibe-coded by Codex and supervised by a Senior Python Enginee
 - Alembic migration scaffold and initial schema migration are present
 - frontend admin shell is initialized
 
+## Local development
+
+For a full local run guide, see [docs/local_setup.md](docs/local_setup.md).
+
 ## Planned next steps
 
 1. implement influencer and memory domain services
