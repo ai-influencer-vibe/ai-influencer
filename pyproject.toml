@@ -46,12 +46,19 @@ target-version = "py312"
 select = ["E", "F", "I", "N", "UP", "B", "S", "C4"]
 ignore = ["B008", "S104"]
 
+[tool.ruff.lint.per-file-ignores]
+"backend/tests/*.py" = ["S101"]
+
 [tool.mypy]
 python_version = "3.12"
 strict = true
 warn_unused_configs = true
 plugins = []
 mypy_path = "backend/src"
+
+[[tool.mypy.overrides]]
+module = ["celery", "pgvector.sqlalchemy"]
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core>=1.9.0"]

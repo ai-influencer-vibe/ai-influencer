@@ -10,7 +10,9 @@ from app.models.base_mixins import TimestampMixin, UUIDPrimaryKeyMixin
 
 
 class GenerationRequest(UUIDPrimaryKeyMixin, TimestampMixin, Base):
-    influencer_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("influencer.id"))
+    influencer_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("influencer.id")
+    )
     content_type: Mapped[str] = mapped_column(String(64), nullable=False)
     platform: Mapped[str | None] = mapped_column(String(64))
     status: Mapped[str] = mapped_column(String(32), nullable=False)

@@ -1,3 +1,5 @@
+"""Unit tests for influencer service workflows."""
+
 from __future__ import annotations
 
 import uuid
@@ -5,7 +7,6 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 
 import pytest
-
 from app.core.enums import InfluencerStatus
 from app.core.exceptions import ConflictError, NotFoundError
 from app.models.influencer import Influencer

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+import uuid
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
-import uuid
-from typing import Protocol
+from typing import Any, Protocol
 
-from app.core.exceptions import ConflictError, NotFoundError
 from app.core.enums import InfluencerStatus
+from app.core.exceptions import ConflictError, NotFoundError
 from app.models.influencer import Influencer
 from app.schemas.influencer import InfluencerCreate, InfluencerUpdate
 
@@ -21,23 +21,10 @@ class InfluencerListResult:
     total: int
 
 
-class SessionProtocol(Protocol):
-    """Protocol describing the session methods used by the service."""
-
-    def add(self, instance: Influencer) -> None:
-        """Track a model instance for persistence."""
-
-    def commit(self) -> None:
-        """Persist the current transaction."""
-
-    def refresh(self, instance: Influencer) -> None:
-        """Refresh a model instance from storage."""
-
-
 class InfluencerRepositoryProtocol(Protocol):
     """Protocol describing the repository behavior required by the service."""
 
-    session: SessionProtocol
+    session: Any
 
     def get(self, entity_id: uuid.UUID) -> Influencer | None:
         """Return one influencer by identifier."""

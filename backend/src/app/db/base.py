@@ -10,5 +10,5 @@ def camel_to_snake(value: str) -> str:
 
 class Base(DeclarativeBase):
     @declared_attr.directive
-    def __tablename__(cls) -> str:
+    def __tablename__(cls) -> str:  # noqa: N805
         return camel_to_snake(cls.__name__)

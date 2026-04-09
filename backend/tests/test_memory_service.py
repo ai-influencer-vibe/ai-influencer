@@ -1,3 +1,5 @@
+"""Unit tests for versioned memory workflows."""
+
 from __future__ import annotations
 
 import uuid
@@ -5,7 +7,6 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 
 import pytest
-
 from app.core.enums import MemoryType, MemoryVersionStatus
 from app.core.exceptions import ConflictError, NotFoundError
 from app.models.memory import MemoryItem, MemoryVersion
@@ -40,7 +41,11 @@ class FakeMemorySession:
 class FakeMemoryItemRepository:
     """In-memory logical memory item repository for service tests."""
 
-    def __init__(self, items: list[MemoryItem] | None = None, session: FakeMemorySession | None = None) -> None:
+    def __init__(
+        self,
+        items: list[MemoryItem] | None = None,
+        session: FakeMemorySession | None = None,
+    ) -> None:
         self.items = items or []
         self.session = session or FakeMemorySession()
 
@@ -122,7 +127,11 @@ class FakeMemoryVersionRepository:
             reverse=True,
         )
 
-    def get_for_item(self, memory_item_id: uuid.UUID, version_id: uuid.UUID) -> MemoryVersion | None:
+    def get_for_item(
+        self,
+        memory_item_id: uuid.UUID,
+        version_id: uuid.UUID,
+    ) -> MemoryVersion | None:
         """Return one version only when it belongs to the requested item."""
 
         return next(
