@@ -60,6 +60,10 @@ mypy_path = "backend/src"
 module = ["celery", "pgvector.sqlalchemy"]
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = ["app.workers.celery_app"]
+disable_error_code = ["untyped-decorator"]
+
 [build-system]
 requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"

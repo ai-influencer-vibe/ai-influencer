@@ -21,7 +21,7 @@ celery_app.conf.update(
 )
 
 
-@celery_app.task(name="app.workers.ping")  # type: ignore[no-untyped-call]
+@celery_app.task(name="app.workers.ping")  # type: ignore[untyped-decorator]
 def ping() -> str:
     """Return a small response used to validate the worker wiring."""
 
