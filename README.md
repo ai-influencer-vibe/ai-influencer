@@ -16,6 +16,10 @@ This repository is vibe-coded by Codex and supervised by a Senior Python Enginee
 
 For a full local run guide, see [docs/local_setup.md](docs/local_setup.md).
 
+## CI
+
+For GitHub Actions and CI details, see [docs/ci.md](docs/ci.md).
+
 ## Planned next steps
 
 1. implement influencer and memory domain services
